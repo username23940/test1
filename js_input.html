@@ -21,7 +21,7 @@
     </script>
     <h2>html</h2>
       1+1
-    <br> // 위코드와 아래코드 공존불가 
+    <br> 
     <input type='button' value='night' onclick="
     document.querySelector('body').style.backgroundColor='black' ;
     document.querySelector('body').style.color='white'"
@@ -31,15 +31,27 @@
     document.querySelector('body').style.color='black'"
     >
     <br>
-    <input id = 'toggle' type='button' value='day' onclick="
+    <input id = 'toggle' type='button' value='night' onclick="
       if (document.querySelector('#toggle').value === 'night') {
-        document.querySelector('body').style.backgroundColor='white' ;
-        document.querySelector('body').style.color='black'
-        document.querySelector('#toggle').value='day'
-      } else {
         document.querySelector('body').style.backgroundColor='black' ;
         document.querySelector('body').style.color='white'
+        document.querySelector('#toggle').value='day'
+      } else {
+        document.querySelector('body').style.backgroundColor='white' ;
+        document.querySelector('body').style.color='black'
         document.querySelector('#toggle').value='night'
+      }
+      <br>
+      <input type='button' value='night' onclick="
+      var target = document.querySelector('body')
+      if (this.value === 'night') {
+        target.style.backgroundColor='black' ;
+        target.style.color='white';
+        this.value='day'
+      } else {
+        target.style.backgroundColor='white' ;
+        target.style.color='black';
+        this.value='night'
       }
       ">
     
