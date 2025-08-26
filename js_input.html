@@ -8,27 +8,41 @@
     <h1><a href='index.html'>WEB1</a></h1>
     <h2>js</h2>
     <p>
-    <input type='button' value='test' onclick="alert('hi')">
+      <input type='button' value='test' onclick="alert('hi')">
     </p>
     <p>
-    <input type='text' onchange="alert('changed')">
+      <input type='text' onchange="alert('changed')">
     </p>
     <p>
-    <input type='text' onkeydown="alert('keydown!')">
+      <input type='text' onkeydown="alert('keydown!')">
     </p>
     <script>
-    document.write(1+1);
-  </script>
+      document.write(1+1);
+    </script>
     <h2>html</h2>
-    1+1
-  <input type='button' value='night' onclick="
-document.querySelector('body').style.backgroundColor='black' ;
-document.querySelector('body').style.color='white'"
->
-<input type='button' value='day' onclick="
-document.querySelector('body').style.backgroundColor='white' ;
-document.querySelector('body').style.color='black'"
->
+      1+1
+    <br>
+    <input type='button' value='night' onclick="
+    document.querySelector('body').style.backgroundColor='black' ;
+    document.querySelector('body').style.color='white'"
+    >
+    <input type='button' value='day' onclick="
+    document.querySelector('body').style.backgroundColor='white' ;
+    document.querySelector('body').style.color='black'"
+    >
+    <br>
+    <input id = 'toggle' type='button' value='day' onclick="
+      if (document.querySelector('#toggle').value === 'night') {
+        document.querySelector('body').style.backgroundColor='white' ;
+        document.querySelector('body').style.color='black'
+        document.querySelector('#toggle').value='day'
+      } else {
+        document.querySelector('body').style.backgroundColor='black' ;
+        document.querySelector('body').style.color='white'
+        document.querySelector('#toggle').value='night'
+      }
+      ">
+    
   
   </body>
 </html>
