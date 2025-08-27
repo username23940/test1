@@ -44,15 +44,30 @@
       ">
     <br>
       <input type='button' value='night' onclick="
-      var target = document.querySelector('body')
+      var target = document.querySelector('body') ;
+      
       if (this.value === 'night') {
+        alist = document.querySelectorAll('a') ;
+        var i =0 ;
+        
         target.style.backgroundColor='black' ;
         target.style.color='white';
         this.value='day'
+        while(i<alist.length) {
+        alist[i].style.color='powderblue'
+        i=i+1;
+        }
       } else {
+        alist = document.querySelectorAll('a') ;
+        var i =0 ;
+        
         target.style.backgroundColor='white' ;
         target.style.color='black';
         this.value='night'
+        while(i<alist.length) {
+        alist[i].style.color='blue'
+        i=i+1;
+        }
       }
       ">
     
