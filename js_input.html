@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <script>
     function LinksSetColor(color) {
-        alist = document.querySelectorAll('a') ;
+        var alist = document.querySelectorAll('a') ;
         var i =0 ;
         while(i<alist.length) {
         alist[i].style.color=color;
@@ -17,7 +17,6 @@
     }
     function nightDayHandler(self) {
       var target = document.querySelector('body') ;
-      var alist;
       if (self.value === 'night') {
         target.style.backgroundColor='black' ;
         BodySetColor('white');
