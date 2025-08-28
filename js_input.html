@@ -4,34 +4,46 @@
     <title></title>
     <meta charset="utf-8">
     <script>
-    function LinksSetColor(color) {
+    var Links = {
+      setColor(color)  {
         var alist = document.querySelectorAll('a') ;
         var i =0 ;
         while(i<alist.length) {
         alist[i].style.color=color;
         i=i+1;
         }
+      }
     }
-    function BodySetColor(color) {
+    var Body = {
+      setColor(color)  {
         document.querySelector('body').style.color = color ;
+      },
     }
+      
     function nightDayHandler(self) {
       var target = document.querySelector('body') ;
       if (self.value === 'night') {
         target.style.backgroundColor='black' ;
-        BodySetColor('white');
+        Body.setColor('white'); 
         self.value='day' ;
-        LinksSetColor('powderblue') ;
+        
+        Links.setColor('powderblue') ;
       } else {
         target.style.backgroundColor='white' ;
-        BodySetColor('black');
+        Body.setColor('black');
         self.value='night' ;
-        LinksSetColor('blue');
+        
+        Links.setColor('blue');
       }
     }
     </script>
   </head>
   <body>
+
+
+
+
+    
     <h1><a href='index.html'>WEB1</a></h1>
     <h2>js</h2>
     <p>
@@ -49,6 +61,12 @@
     <h2>html</h2>
       1+1
     <br> 
+
+
+
+
+
+    
     <input type='button' value='night' onclick="
     document.querySelector('body').style.backgroundColor='black' ;
     document.querySelector('body').style.color='white'"
@@ -57,6 +75,12 @@
     document.querySelector('body').style.backgroundColor='white' ;
     document.querySelector('body').style.color='black'"
     > 주야간 정보 변경
+
+
+
+
+
+    
     <br>
     <input id = 'toggle' type='button' value='night' onclick="
       if (document.querySelector('#toggle').value === 'night') {
@@ -68,37 +92,47 @@
         document.querySelector('body').style.color='black'
         document.querySelector('#toggle').value='night'
       }
-      "> 주야간 정보변경 with toggle
+      "> 주야간 정보변경 with toggle(조건문)
+
+
+
+
+    
     <br>
       <input type='button' value='night' onclick="
       var target = document.querySelector('body') ;
       var alist;
       if (this.value === 'night') {
-        alist = document.querySelectorAll('a') ;
-        var i =0 ;
-        
         target.style.backgroundColor='black' ;
         target.style.color='white';
         this.value='day'
+        
+        alist = document.querySelectorAll('a') ;
+        var i =0 ;
         while(i<alist.length) {
         alist[i].style.color='powderblue'
         i=i+1;
         }
       } else {
-        alist = document.querySelectorAll('a') ;
-        var i =0 ;
-        
         target.style.backgroundColor='white' ;
         target.style.color='black';
         this.value='night'
+        
+        alist = document.querySelectorAll('a') ;
+        var i =0 ;
         while(i<alist.length) {
         alist[i].style.color='blue'
         i=i+1;
         }
       }
-      "> 주야간 정보변경 with toggle with color shift
+      "> 주야간 정보변경 with toggle with color shift(조건문+반복문)
     <br>
-    <input type='button' value='night' onclick="nightDayHandler(this)"> 주야간 정보변경 with toggle with color shift with function
-    with object  
+
+
+    
+
+    
+    <input type='button' value='night' onclick="nightDayHandler(this)"> 
+    주야간 정보변경 with toggle with color shift with function with object(조건문+반복문+함수+객체)
   </body>
 </html>
