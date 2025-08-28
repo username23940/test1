@@ -4,31 +4,30 @@
     <title></title>
     <meta charset="utf-8">
     <script>
+    function LinksSetColor(color) {
+        alist = document.querySelectorAll('a') ;
+        var i =0 ;
+        while(i<alist.length) {
+        alist[i].style.color=color;
+        i=i+1;
+        }
+    }
+    function BodySetColor(color) {
+        document.querySelector('body').style.color = color ;
+    }
     function nightDayHandler(self) {
       var target = document.querySelector('body') ;
       var alist;
       if (self.value === 'night') {
-        alist = document.querySelectorAll('a') ;
-        var i =0 ;
-        
         target.style.backgroundColor='black' ;
-        target.style.color='white';
-        self.value='day'
-        while(i<alist.length) {
-        alist[i].style.color='powderblue'
-        i=i+1;
-        }
+        BodySetcolor(white);
+        self.value='day' ;
+        setColor('powderblue') ;
       } else {
-        alist = document.querySelectorAll('a') ;
-        var i =0 ;
-        
         target.style.backgroundColor='white' ;
-        target.style.color='black';
-        self.value='night'
-        while(i<alist.length) {
-        alist[i].style.color='blue'
-        i=i+1;
-        }
+        BodySetcolor(white);
+        self.value='night' ;
+        setColor('blue);
       }
     }
     </script>
@@ -101,6 +100,6 @@
       "> 주야간 정보변경 with toggle with color shift
     <br>
     <input type='button' value='night' onclick="nightDayHandler(this)"> 주야간 정보변경 with toggle with color shift with function
-   
+    with object  
   </body>
 </html>
