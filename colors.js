@@ -6,12 +6,14 @@
       while(i<alist.length) {
       alist[i].style.color=color;
       i=i+1;
+     // $('a').css('color', color) ;
       }
     }
   }
   var Body = {
     setColor(color)  {
       document.querySelector('body').style.color = color ;
+      // $('body').css('color', color) ; 
     },
   }
     
@@ -23,7 +25,8 @@
       self.value='day' ;
       
       Links.setColor('yellow') ;
-    } else {
+    } 
+    else {
       target.style.backgroundColor='white' ;
       Body.setColor('black');
       self.value='night' ;
