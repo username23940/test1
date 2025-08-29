@@ -3,40 +3,7 @@
   <head>
     <title></title>
     <meta charset="utf-8">
-    <script>
-    var Links = {
-      setColor(color)  {
-        var alist = document.querySelectorAll('a') ;
-        var i =0 ;
-        while(i<alist.length) {
-        alist[i].style.color=color;
-        i=i+1;
-        }
-      }
-    }
-    var Body = {
-      setColor(color)  {
-        document.querySelector('body').style.color = color ;
-      },
-    }
-      
-    function nightDayHandler(self) {
-      var target = document.querySelector('body') ;
-      if (self.value === 'night') {
-        target.style.backgroundColor='black' ;
-        Body.setColor('white'); 
-        self.value='day' ;
-        
-        Links.setColor('powderblue') ;
-      } else {
-        target.style.backgroundColor='white' ;
-        Body.setColor('black');
-        self.value='night' ;
-        
-        Links.setColor('blue');
-      }
-    }
-    </script>
+   
   </head>
   <body>
 
@@ -133,6 +100,6 @@
 
     
     <input type='button' value='night' onclick="nightDayHandler(this)"> 
-    주야간 정보변경 with toggle with color shift with function with object(조건문+반복문+함수+객체)
+    주야간 정보변경 with toggle with color shift with function with object(조건문+반복문+함수+객체) with file
   </body>
 </html>
