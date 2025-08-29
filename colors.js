@@ -22,7 +22,7 @@
       Body.setColor('white'); 
       self.value='day' ;
       
-      Links.setColor('powderblue') ;
+      Links.setColor('yellow') ;
     } else {
       target.style.backgroundColor='white' ;
       Body.setColor('black');
