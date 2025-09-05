@@ -36,6 +36,11 @@
   padding : 20px ; 
   margin : 0;
   }  /* 여기까지 박스 모델 연습 */
+    
+  #grid  {
+    display : grid ;
+    grid-template-columns : 160px 1fr ;
+  }
   #grid ol{
     border-right : 1px solid gray;
     width : 105px ;
@@ -43,14 +48,25 @@
     padding : 20px ;
     padding-left : 35px ;
   }
-  #grid  {
-    display : grid ;
-    grid-template-columns : 160px 1fr ;
-  }
   #article {
     padding-left : 25px ;
   } /* 여기까지 그리드 연습 */
- 
+    
+  @media(max-width : 400px) {
+    h1{
+      font-size : 30px;
+      text-align : center;
+      border : none ;
+    }
+    #grid {
+      display : block;
+    }
+    #grid ol{
+    border-right : none;
+    }
+  }    
+    /* 여기까지 미디어쿼리 연습(예정) */
+    
     </style>
 </head>
 <body>
