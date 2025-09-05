@@ -10,7 +10,8 @@
         padding : 20px ;
         margin : 40px ;
         width : 200px ;
-      }
+      } /* 여기까지 박스 모델 */
+      
       div{
         border : 5px solid gray ;
       }
@@ -18,13 +19,19 @@
         border : 5px solid pink ;
         display : grid ;
         grid-template-columns : 150px 1fr ;
-        /* 나머지 공간을 다 쓰는 fr */
+        /* 여기까지 나머지 공간을 다 쓰는 fr */
       } 
+      
       #responsive{
         border : 10px solid green ;
         font-size : 60px;
       }
-
+      @media(min-width : 800px) {
+        div{
+          display : none ;
+        }
+      } /* 여기까지 반응형 디자인(미디어 쿼리) */
+      
     </style>
   </head>
   <body>
