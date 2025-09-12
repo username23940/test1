@@ -9,15 +9,15 @@
       list-style : none ;
       display : flex ;
     }
-    .nav > li {
+    .nav > li { /* nav class 중 li인데, 자식을 가지지않는 li여야함(> 안쓰면 자식 유무 상관없이 nav class 내부 li는 전부 선택 */
       position : relative ;
     }
     .submenu {
-      position : absolute ;
+      position : absolute ; /* 하위 메뉴는 부모메뉴 바로 아래 떨어지므로, 부모인 nav li에 relative로 기준점 지정. absolute로 상대적 위치 선정 */
       top : 100% ;
       left : 0 ;
     }
-    .nav li : hover .submenu {
+    .nav li:hover .submenu {
       display : block ;
     }
   </style>
@@ -44,7 +44,7 @@
   </div>
   <ul class='nav'>
     <li>
-      <a href='#'> Press</a>
+      <a href='#'>Press(dropdown practice)</a>
       <ul class='submenu'>
         <li><a href='#'>Current</a></li>
         <li><a href='#'>Past</a></li>
