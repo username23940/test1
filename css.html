@@ -5,49 +5,29 @@
   <meta charset="utf-8"> 
   <link rel='stylesheet' href='style.css'> 
   <style>
-    .nav {
-      list-style : none ;
-      display : flex ;
-    }
-    .nav > li { /* nav class 중 li인데, 직계 li여야함(> 안쓰면 li안쪽 어디든에 있는 li 전부 선택 */
-      position : relative ;
-    }
-    .submenu {
-      display : none ; /* 안쓰면 항상 떠있음. hover 시에만 보이려면 기본값이 숨겨져있어야 */
-      position : absolute ; /* 하위 메뉴는 부모메뉴 바로 아래 떨어지므로, 부모인 nav li에 relative로 기준점 지정. absolute로 상대적 위치 선정 */
-      top : 100% ;
-      left : 0 ;
-    }
-    .nav li:hover .submenu { /* nav class 안의 li 중, 마우스를 올렸을 때(:hover) 활성된 그 li만 선택 */
-      display : block ;
-    }
-
-
-    /* CSS */
-.scroll-banner {
+    .scroll-banner {
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; /* child가 parent 넘어가면 숨김 */
   background-color: #222;
-  color: white;
   white-space: nowrap; /* 텍스트가 줄 바꿈 안 되게 */
-  box-sizing: border-box;
   padding: 10px 0;
 }
 
 .scroll-text {
   display: inline-block;
   padding-left: 100%; /* 처음엔 보이지 않게, 오른쪽 바깥쪽에서 시작 */
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left 15s linear infinite; /* scroll-left를 keyframes에서 받음*/
 }
 
 @keyframes scroll-left {
-  from {
+  from { /* 시작지점의 모양. 0%로 사용 가능 */
     transform: translateX(0%);
   }
-  to {
+  to {  /* 종료지점의 모양. 100%로 사용 가능 */
     transform: translateX(-100%);
   }
-}
+} /* 좌우 애니메이션 연습 */
+
 
 
     /* lightbox modal */
@@ -99,6 +79,7 @@
       <ul class='submenu'>
         <li><a href='#'>Current</a></li>
         <li><a href='#'>Past</a></li>
+      </ul>
     </li>
   </ul>
 
