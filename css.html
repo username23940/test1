@@ -21,6 +21,33 @@
     .nav li:hover .submenu { /* nav class 안의 li 중, 마우스를 올렸을 때(:hover) 활성된 그 li만 선택 */
       display : block ;
     }
+
+
+    /* CSS */
+.scroll-banner {
+  width: 100%;
+  overflow: hidden;
+  background-color: #222;
+  color: white;
+  white-space: nowrap; /* 텍스트가 줄 바꿈 안 되게 */
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.scroll-text {
+  display: inline-block;
+  padding-left: 100%; /* 처음엔 보이지 않게, 오른쪽 바깥쪽에서 시작 */
+  animation: scroll-left 15s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
   </style>
   
 </head>
@@ -54,5 +81,8 @@
     <li>About</li>
   </ul>
 
+  <div class="scroll-banner">
+    <span class="scroll-text">LATEST EXHIBITION NOW OPEN — VISIT OUR GALLERY — NEW WORKS ADDED WEEKLY</span>
+  </div>
 </body>
 </html>
