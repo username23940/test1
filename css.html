@@ -32,7 +32,7 @@
     } /* 좌우 애니메이션 연습 */
     
     
-    .overlay { /* lightbox modal */
+    .gallery { /* lightbox modal */
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* CSS Grid 레이아웃에서 열의 개수와 크기를 정하는 속성이야.
           repeat(auto-fill, ...): "가능한 한 많이(auto-fill)" 열을 자동으로 채우라는 뜻.
@@ -41,17 +41,17 @@
       gap: 15px;
       padding: 20px;
     }
-    .overlay img {
+    .gallery img {
       width: 100%;
       cursor: pointer; /* 마우스를 올렸을 때 커서 모양을 손가락(클릭 가능) 모양으로 바꿔줘. 버튼이나 링크처럼 "이거 클릭할 수 있어"라는 신호를 주는 UX 속성. */
       border-radius: 8px; /* 요소의 모서리를 둥글게 만드는 속성이야. 8px이면 살짝 둥근 사각형이 되고, 50%로 주면 완전히 원(circle)이 돼.보통 카드형 UI, 이미지, 버튼에 미관상 많이 씀. */
       transition: transform 0.3s; /* CSS 속성 값이 바뀔 때 부드럽게 애니메이션 효과를 주는 거야. transform(예: scale, rotate)이 바뀔 때 0.3초 동안 천천히 변화. 보통 hover랑 같이 쓰임. */
     }
-    .overlay img:hover {
+    .gallery img:hover {
       transform: scale(1.05); /* 실제로 변화 효과를 줄 때 사용. like @keyframes */ 
     }  
 /* 오버레이: 처음에는 숨겨진 상태 */
-.overlay {
+.gallery {
   background:rgba(0,0,0,0.85); /* 17. 반투명 검은 배경 */
   visibility:hidden; /* 18. 기본적으로 안 보임 */
   opacity:0; /* 19. 투명하게 */
@@ -60,15 +60,9 @@
 }
 
 /* 오버레이에 .show 클래스가 붙으면 보이게 */
-.overlay.show {
+.gallery.show {
   visibility:visible; /* 22. 화면에 표시 */
   opacity:1; /* 23. 불투명하게 */
-}
-
-.overlay img {
-  max-width:calc(100% - 100px); /* 24. 이미지가 화면을 넘지 않도록 제한 */
-  max-height:calc(100% - 100px); /* 25. 세로도 마찬가지 */
-  border-radius:8px; /* 26. 모서리 둥글게 */
 }
 
 .closebtn {
@@ -118,7 +112,7 @@
   </div>
 
 
-  <div class="overlay"> <!-- 이미지를 한줄로 정렬 -->
+  <div class="gallery"> <!-- 이미지를 한줄로 정렬 -->
     <img src="https://picsum.photos/400/300?random=1" alt="">
     <img src="https://picsum.photos/400/300?random=2" alt="">
     <img src="https://picsum.photos/400/300?random=3" alt="">
