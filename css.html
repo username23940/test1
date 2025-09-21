@@ -5,34 +5,34 @@
   <meta charset="utf-8"> 
   <link rel='stylesheet' href='style.css'> 
   <style>
+    /* transition transform animation https://inpa.tistory.com/entry/CSS-%F0%9F%93%9A-%ED%8A%B8%EB%9E%9C%EC%A7%80%EC%85%98-%ED%8A%B8%EB%9E%9C%EC%8A%A4%ED%8F%BC-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98
+    참고 */
     .scroll-banner {
-  width: 100%;
-  overflow: hidden; /* child가 parent 넘어가면 숨김 */
-  background-color: #222;
-  white-space: nowrap; /* 텍스트가 줄 바꿈 안 되게 */
-  padding: 10px 0;
-}
-
-.scroll-text {
-  display: inline-block;
-  padding-left: 100%; /* 처음엔 보이지 않게, 오른쪽 바깥쪽에서 시작 */
-  animation: scroll-left 15s linear infinite; /* scroll-left를 keyframes에서 받음*/
-}
-
-@keyframes scroll-left {
-  from { /* 시작지점의 모양. 0%로 사용 가능 */
-    transform: translateX(0%);
-  }
-  to {  /* 종료지점의 모양. 100%로 사용 가능 */
-    transform: translateX(-100%);
-  }
-} /* 좌우 애니메이션 연습 */
-
-
-
-    /* lightbox modal */
-    /* 갤러리 레이아웃 */
-    .gallery {
+      width: 100%;
+      overflow: hidden; /* child가 parent 넘어가면 숨김 */
+      background-color: #222;
+      white-space: nowrap; /* 텍스트가 줄 바꿈 안 되게 */
+      padding: 10px 0;
+      margin-top : 70px ;
+    }
+    
+    .scroll-text {
+      display: inline-block;
+      padding-left: 100%; /* 처음엔 보이지 않게, 오른쪽 바깥쪽에서 시작 */
+      animation: scroll-left 15s linear infinite; /* scroll-left를 keyframes에서 받음*/
+    }
+    
+    @keyframes scroll-left {
+      from { /* 시작지점의 모양. 0%로 사용 가능 */
+        transform: translateX(0%);
+      }
+      to {  /* 종료지점의 모양. 100%로 사용 가능 */
+        transform: translateX(-100%);
+      }
+    } /* 좌우 애니메이션 연습 */
+    
+    
+    .overlay { /* lightbox modal */
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* CSS Grid 레이아웃에서 열의 개수와 크기를 정하는 속성이야.
           repeat(auto-fill, ...): "가능한 한 많이(auto-fill)" 열을 자동으로 채우라는 뜻.
@@ -41,15 +41,41 @@
       gap: 15px;
       padding: 20px;
     }
-    .gallery img {
+    .overlay img {
       width: 100%;
       cursor: pointer; /* 마우스를 올렸을 때 커서 모양을 손가락(클릭 가능) 모양으로 바꿔줘. 버튼이나 링크처럼 "이거 클릭할 수 있어"라는 신호를 주는 UX 속성. */
       border-radius: 8px; /* 요소의 모서리를 둥글게 만드는 속성이야. 8px이면 살짝 둥근 사각형이 되고, 50%로 주면 완전히 원(circle)이 돼.보통 카드형 UI, 이미지, 버튼에 미관상 많이 씀. */
       transition: transform 0.3s; /* CSS 속성 값이 바뀔 때 부드럽게 애니메이션 효과를 주는 거야. transform(예: scale, rotate)이 바뀔 때 0.3초 동안 천천히 변화. 보통 hover랑 같이 쓰임. */
     }
-    .gallery img:hover {
-      transform: scale(1.05);
+    .overlay img:hover {
+      transform: scale(1.05); /* 실제로 변화 효과를 줄 때 사용. like @keyframes */ 
     }  
+
+    .overlay { /* 처음에는 숨겨진 상태. 클릭해야 보임 */
+      position : fixed ; /* 화면 스크롤과 상관없이 고정 */
+      inset:0;
+      display : flex ;
+      align-items : center ; justify-content : center ;
+      background : rgba(0,0,0,0.85) ; /* 17. 반투명 검은 배경 */
+      visibility : hidden ; /* 기본적으로 안 보임 */
+      opacity : 0; /*투명하게 */
+      transition : opacity .2s ; /*opacity가 변할 때 0.2초 애니메이션 */
+      z-index: 999 ; /*다른 요소 위에 올라오게 */
+    } 
+
+    .overlay.show { /* js가 .show 클래스를 붙일 때 */
+        visibility : visible ; /*화면에 표시 */
+        opacity : 1 ; /*불투명하게 */
+    }
+
+    .closebtn {
+      position : fixed ; /* 닫기 버튼을 화면 고정 위치에 */
+      top : 20px ;
+      right : 20px ;
+      font-size : 30px ;
+      color : white ;
+      cursor : pointer ;
+    }
   </style>
   
 </head>
@@ -89,11 +115,60 @@
   </div>
 
 
-  <div class="gallery">
-  <img src="https://picsum.photos/400/300?random=1" alt="">
-  <img src="https://picsum.photos/400/300?random=2" alt="">
-  <img src="https://picsum.photos/400/300?random=3" alt="">
-  <img src="https://picsum.photos/400/300?random=4" alt="">
-</div>
+  <div class="overlay"> <!-- 이미지를 한줄로 정렬 -->
+    <img src="https://picsum.photos/400/300?random=1" alt="">
+    <img src="https://picsum.photos/400/300?random=2" alt="">
+    <img src="https://picsum.photos/400/300?random=3" alt="">
+    <img src="https://picsum.photos/400/300?random=4" alt="">
+  </div>
+
+  <div class="overlay" id="overlay" role = "dialog" aria-modal ="true" aria-hidden="true">
+    <!-- class overlay : css에서 화면 전체를 덮는 검은 반투명 배경을 만들기 위함
+        id overlay : js에서 document.getElementById("overlay")로 찾아오기 위한 식별자
+        role : 스크린리더에게 이건 팝업창 역할임을 알려줌(접근성을 위함))
+        aria : 팝업이 열려이을 때 팝업 안에서만 상호작용 해야한다는 의미. 기본 상태에서는 숨겨져 있고, 오버레이 열리면 js가 falseㄹ 바뀌어 보이게 됨)-->
+    <span class="closebtn" id="closebtn" aria-label="Close">&times</span>
+    <!-- class closebtn : css에서 오른쪽 위에 X버튼 모양을 만듦
+        id closebtn : js에서 이 번튼에 click 이벤트 달기 위해 필요
+        aria Close : 스크린리더가 x만 읽으면 뭔지 모를 수 있으니, 닫기라고 읽어주도록 지정
+        &times : HTML 특수문자코드, X 기호 출력-->
+    <img id="overlayImg" src="" alt="">
+    <!-- id overlayImg : js에서 이 요소에 클릭한 사진의 큰 이미지 넣어줌, src도 마찬가지로 js가 넣어줌
+        alt : 대체텍스트 -->
+  </div>
+
+  <script>
+    const img = document.querySelectorAll("img") ; //썸네일(작은 이미지)들 선택해서 NodeList(배열 비슷한 것)로 저장
+    const overlay = document.getElemnetById("overlay"); //오버레이(큰 이미지 띄우는 박스) 요소 선택
+    const overlayImg = document.getElemnetById("overlayImg"); //오버레이 안의 <img> 요소 선택 (큰 이미지가 들어갈 곳)
+    const closeBtn = document.getElemnetById("closeBnt"); //닫기 버튼 선택 
+
+    img.forEach(i => {
+      i.addEventListner("click", () => {
+        const src = i.src;
+        overlayImg.src = src ;
+        overlay.classList.add("show");
+        overlay.setAttribute("aria-hidden", "false");
+      });
+    });
+
+    function close() {
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden, "true");
+        overlayImg ="" ;
+    }
+
+    closeBtn.addEventListner("click", close");
+
+    overlay.addEventListner("click", (e) => {
+      if(e.target===overlay) close();
+    });
+
+    document.addEventListner("keydown", (e) => {
+      if(e.key==="Escape" && overlay.classList.containes("show"))
+    });
+  </script>
+
+  
 </body>
 </html>
