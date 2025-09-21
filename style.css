@@ -55,7 +55,7 @@
       list-style : none ;
       display : flex ;
     }
-    .nav li { /* nav class 중 a인데, 직계 a여야함(> 안쓰면 a안쪽 어디든에 있는 a 전부 선택 */
+    .nav> li { /* nav class 중 li 인데, 직계 li여야함(> 안쓰면 li안쪽 어디든에 있는 li 전부 선택 */
       position : relative ;
     }
     .submenu {
@@ -64,7 +64,7 @@
       top : 100% ;
       left : 0 ;
     }
-    .nav > a:hover .submenu { /* nav class 안의 li 중, 마우스를 올렸을 때(:hover) 활성된 그 li만 선택 */
+    .nav li:hover .submenu { /* nav class 안의 li 중, 마우스를 올렸을 때(:hover) 활성된 그 li만 선택 */
       display : block ;
     } /* 여기까지 드롭다운 연습 */
 
