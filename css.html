@@ -138,7 +138,7 @@
  const thumbs = document.querySelectorAll('.gallery img'); // 1. 썸네일(작은 이미지)들 선택해서 NodeList(배열 비슷한 것)로 저장
 const overlay = document.getElementById('overlay'); // 2. 오버레이(큰 이미지 띄우는 박스) 요소 선택
 const overlayImg = document.getElementById('overlayImg'); // 3. 오버레이 안의 <img> 요소 선택 (큰 이미지가 들어갈 곳)
-const closeBtn = document.getElementById('closeBtn'); // 4. 닫기 버튼 선택
+const closeBtn = document.getElementById('closebtn'); // 4. 닫기 버튼 선택
 
 thumbs.forEach(t => { // 5. 모든 썸네일 각각에 대해서 아래 작업을 반복
   t.addEventListener('click', () => { // 6. 해당 썸네일 클릭 시 발동하는 함수 등록
