@@ -50,32 +50,40 @@
     .overlay img:hover {
       transform: scale(1.05); /* 실제로 변화 효과를 줄 때 사용. like @keyframes */ 
     }  
+/* 오버레이: 처음에는 숨겨진 상태 */
+.overlay {
+  position:fixed; /* 12. 화면 스크롤과 상관없이 고정 */
+  inset:0; /* 13. top/bottom/left/right 모두 0 → 화면 전체 덮음 */
+  display:flex; /* 14. 안의 요소들을 중앙 배치 */
+  align-items:center; /* 15. 세로 중앙 정렬 */
+  justify-content:center; /* 16. 가로 중앙 정렬 */
+  background:rgba(0,0,0,0.85); /* 17. 반투명 검은 배경 */
+  visibility:hidden; /* 18. 기본적으로 안 보임 */
+  opacity:0; /* 19. 투명하게 */
+  transition:opacity .2s; /* 20. opacity가 변할 때 0.2초 애니메이션 */
+  z-index:999; /* 21. 다른 요소 위에 올라오게 */
+}
 
-    .overlay { /* 처음에는 숨겨진 상태. 클릭해야 보임 */
-      position : fixed ; /* 화면 스크롤과 상관없이 고정 */
-      inset:0;
-      display : flex ;
-      align-items : center ; justify-content : center ;
-      background : rgba(0,0,0,0.85) ; /* 17. 반투명 검은 배경 */
-      visibility : hidden ; /* 기본적으로 안 보임 */
-      opacity : 0; /*투명하게 */
-      transition : opacity .2s ; /*opacity가 변할 때 0.2초 애니메이션 */
-      z-index: 999 ; /*다른 요소 위에 올라오게 */
-    } 
+/* 오버레이에 .show 클래스가 붙으면 보이게 */
+.overlay.show {
+  visibility:visible; /* 22. 화면에 표시 */
+  opacity:1; /* 23. 불투명하게 */
+}
 
-    .overlay.show { /* js가 .show 클래스를 붙일 때 */
-        visibility : visible ; /*화면에 표시 */
-        opacity : 1 ; /*불투명하게 */
-    }
+.overlay img {
+  max-width:calc(100% - 100px); /* 24. 이미지가 화면을 넘지 않도록 제한 */
+  max-height:calc(100% - 100px); /* 25. 세로도 마찬가지 */
+  border-radius:8px; /* 26. 모서리 둥글게 */
+}
 
-    .closebtn {
-      position : fixed ; /* 닫기 버튼을 화면 고정 위치에 */
-      top : 20px ;
-      right : 20px ;
-      font-size : 30px ;
-      color : white ;
-      cursor : pointer ;
-    }
+.closebtn {
+  position:fixed; /* 27. 닫기 버튼을 화면 고정 위치에 */
+  top:20px; /* 28. 위에서 20px */
+  right:20px; /* 29. 오른쪽에서 20px */
+  font-size:28px; /* 30. 글자 크기 크게 (× 표시 크기) */
+  color:white; /* 31. 흰색으로 표시 */
+  cursor:pointer; /* 32. 마우스 올리면 손가락 모양 */
+}
   </style>
   
 </head>
@@ -138,35 +146,37 @@
   </div>
 
   <script>
-    const img = document.querySelectorAll("img") ; //썸네일(작은 이미지)들 선택해서 NodeList(배열 비슷한 것)로 저장
-    const overlay = document.getElemnetById("overlay"); //오버레이(큰 이미지 띄우는 박스) 요소 선택
-    const overlayImg = document.getElemnetById("overlayImg"); //오버레이 안의 <img> 요소 선택 (큰 이미지가 들어갈 곳)
-    const closeBtn = document.getElemnetById("closeBnt"); //닫기 버튼 선택 
+ const thumbs = document.querySelectorAll('.thumb'); // 1. 썸네일(작은 이미지)들 선택해서 NodeList(배열 비슷한 것)로 저장
+const overlay = document.getElementById('overlay'); // 2. 오버레이(큰 이미지 띄우는 박스) 요소 선택
+const overlayImg = document.getElementById('overlayImg'); // 3. 오버레이 안의 <img> 요소 선택 (큰 이미지가 들어갈 곳)
+const closeBtn = document.getElementById('closeBtn'); // 4. 닫기 버튼 선택
 
-    img.forEach(i => {
-      i.addEventListner("click", () => {
-        const src = i.src;
-        overlayImg.src = src ;
-        overlay.classList.add("show");
-        overlay.setAttribute("aria-hidden", "false");
-      });
-    });
+thumbs.forEach(t => { // 5. 모든 썸네일 각각에 대해서 아래 작업을 반복
+  t.addEventListener('click', () => { // 6. 해당 썸네일 클릭 시 발동하는 함수 등록
+    const src = t.dataset.large || t.src; // 7. data-large 속성이 있으면 그 값을, 없으면 썸네일 src를 사용
+    overlayImg.src = src; // 8. 오버레이 이미지(src)를 큰 이미지 URL로 설정 -> 이미지를 로드함
+    overlay.classList.add('show'); // 9. CSS 클래스 'show'를 붙여서 오버레이를 화면에 보이게 함
+    overlay.setAttribute('aria-hidden','false'); // 10. 접근성: 오버레이가 보인다는 것을 표시
+    // (선택) 여기서 포커스를 오버레이로 보내면 접근성이 좋아짐
+  });
+});
 
-    function close() {
-      overlay.classList.remove("show");
-      overlay.setAttribute("aria-hidden, "true");
-        overlayImg ="" ;
-    }
+function close() { // 11. 오버레이를 닫는 재사용 가능한 함수 정의
+  overlay.classList.remove('show'); // 12. 'show' 클래스 제거해서 숨김 처리
+  overlay.setAttribute('aria-hidden','true'); // 13. 접근성: 오버레이가 숨겨졌음을 표시
+  overlayImg.src = ''; // 14. 큰 이미지 src를 비워서 메모리/네트워크 리소스 해제(선택적)
+}
 
-    closeBtn.addEventListner("click", close");
+closeBtn.addEventListener('click', close); // 15. 닫기 버튼 클릭하면 close() 실행
 
-    overlay.addEventListner("click", (e) => {
-      if(e.target===overlay) close();
-    });
+overlay.addEventListener('click', (e) => { // 16. 오버레이 배경 클릭 처리
+  if (e.target === overlay) close(); // 17. 클릭한 대상이 'overlay' 자체(배경)일 때만 닫기 — 이미지 클릭은 무시
+});
 
-    document.addEventListner("keydown", (e) => {
-      if(e.key==="Escape" && overlay.classList.containes("show"))
-    });
+document.addEventListener('keydown', (e) => { // 18. 문서 전체에서 키보드 입력 감시
+  if (e.key === 'Escape' && overlay.classList.contains('show')) close(); // 19. ESC키 눌렀고 오버레이가 보이는 상태면 닫기
+});
+
   </script>
 
   
