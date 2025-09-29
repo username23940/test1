@@ -8,7 +8,7 @@ var app = http.createServer(function(request,response){
   console.log(queryData.id); 
 
   var _url = request.url;
-  var queryData = url.parse(request.url, true).query ; // url 입력 시 query string 부분 변수 저장
+  var queryData = url.parse(request.url, true).query ; 
   var pathname = url.parse(_url, true).pathname ; // url의 pathname 저장 -> root 인지 확인하기 위해
   
   if(pathname === '/') {
