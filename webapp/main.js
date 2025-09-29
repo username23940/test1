@@ -17,14 +17,14 @@ var app = http.createServer(function(request,response){
       return;
     }
     response.writeHead(200);
-    var template = `
+    fs.readFile(`data/${queryData}`, "utf8", function(err, description){
+        var template = `
     <!doctype html>
     <html>
     <head>
       <title>WEB1 - ${title}</title>
       <meta charset="utf-8">
     </head>
-    
     <body>
     <h1><a href="/">WEB</a></h1> // 위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 ${title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...
       <p>    
@@ -41,13 +41,7 @@ var app = http.createServer(function(request,response){
     
     </ol>
     <h2>${title}</h2>
-    <p>The World Wide Web (abbreviated WWW or the Web) is an information space where documents and other web resources are
-        identified by Uniform Resource Locators (URLs), interlinked by hypertext links, and can be accessed via the
-        Internet.[1] English scientist Tim Berners-Lee invented the World Wide Web in 1989. He wrote the first web browser
-        computer program in 1990 while employed at CERN in Switzerland.[2][3] The Web browser was released outside of CERN
-        in 1991, first to other research institutions starting in January 1991 and to the general public on the Internet in
-        August 1991.
-    </p>
+    <p>${description}</p>
     <p>
       <iframe width="560" height="315" src="https://www.youtube.com/embed/fRXilZ-GOXQ?si=Y-lRJnkE9ZpN50DB" 
         title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
@@ -55,7 +49,8 @@ var app = http.createServer(function(request,response){
     </p>
     </body>
     </html>
-    `;
+    `; 
+    }); // url 입력 시 query string의 부분을 활용해 그 경로의 파일을 읽음. 
     response.end(template); // template 출력
  
 });
