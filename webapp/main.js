@@ -17,7 +17,9 @@ var app = http.createServer(function(request,response){
       return;
     }
     response.writeHead(200);
-    fs.readFile(`data/${queryData}`, "utf8", function(err, description){
+    fs.readFile(`data/${queryData.id}`, "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
+        // 콜백함수를 활용해 description에 추가 동작(내용 출력, 응답 등을 함). 여기서는 template의 내용으로 사용
+        // response.end()로 웹페이지(template) 출력
         var template = `
     <!doctype html>
     <html>
