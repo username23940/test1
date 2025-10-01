@@ -1,3 +1,18 @@
+function a(){ // 이름 있는 함수
+  console.log('A');
+}
+
+/*
+function(){ // 같은 역할이지만 이름 없는 익명함수
+  console.log('A');
+}
+var b= function() { // 변수에 함수를 넣음... JS에서 함수는 값이다! 매개변수에도 함수 넣을 수 있음.. = 콜백함수
+  console.log('A');
+}
+*/
+
+
+
 var fs = require('fs');
 
 console.log('A');
@@ -17,23 +32,11 @@ console.log('C');
 // ACB
 
 
-function slowfunc(callback){ // 어떤 작업을 수행하는 함수. 오래걸릴 수 있으니 slow...(like readfile, 파일 읽기, 네트워크 요청)
-  
+function slowfunc(callback){
+  // callback(a())이 fileread에서 function 역할. callback은 매개변수 X, function은 있음. api로 미리 정해져있기 때문
   // 여기에 파일읽기, 네트워크 요청 등... 오래걸리는 작업 추가!
   callback();   // callback은 a라는 함수를 가지게 됨. A 출력
 }
 slowfunc(a);
 console.log('already'); // 오래걸리는 작업 때문에 already 출력 먼저 
 
-function a(){ // 이름 있는 함수
-  console.log('A');
-}
-
-/*
-function(){ // 같은 역할이지만 이름 없는 익명함수
-  console.log('A');
-}
-var b= function() { // 변수에 함수를 넣음... JS에서 함수는 값이다! 매개변수에도 함수 넣을 수 있음.. = 콜백함수
-  console.log('A');
-}
-*/
