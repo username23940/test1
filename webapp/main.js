@@ -17,7 +17,9 @@ function templateHTML(_title, _list, _body){ // template : 재사용할 수 있�
       <input type='button' value='night' onclick="nightDayHandler(this)"> 
     </p>
     ${_list} // readdir을 통해 파일 목록 배열로 저장한 것을 바탕으로 목록 재정의
-    ${body} // 페이지가 바뀌면 h2, p 태그로 이루어진 코드가 아닐 수도 있음
+    <a href="/create.html">create</a> // 실행경로 webapp. template 재활용하므로 모든 페이지에 생성. 홈페이지와 거의 동일한 화면
+
+    ${_body} // 페이지가 바뀌면 h2, p 태그로 이루어진 코드가 아닐 수도 있음
   <p>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/fRXilZ-GOXQ?si=Y-lRJnkE9ZpN50DB" 
       title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
@@ -48,7 +50,8 @@ var app = http.createServer(function(request,response){
   
   if(pathname === '/') {
     if(queryData.id === undefined) { // 홈 페이지(이중 조건문 활용)
-        fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨 
+        fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
+          // 실행 경로 /webapp
           var title = 'Welcome' ; 
           var description = 'Hello, Node.js';
           /*
@@ -61,13 +64,13 @@ var app = http.createServer(function(request,response){
             <li><a href="/?id=Box Grid Exercise">box, grid 연습</a></li>
           */
           var list = templateList(filelist);
-          var template = templatHTML(title, list, `<h2>${_title}</h2><p>${_description}</p>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
+          var template = templatHTML(title, list, `<h2>${title}</h2><p>${description}</p>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
           // 현재 페이지는 h2, p 태그로 이루어지니까 parameter는 그대로..
           response.writeHead(200); 
           response.end(template); // template 출력
           }); 
     } else {
-      fs.readFile(`data/${queryData.id}`, "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
+      fs.readFile(`./data/${queryData.id}`, "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
       // 콜백함수를 활용해 description에 추가 동작(내용 출력, 응답 등을 함). 여기서는 template의 내용으로 사용
       // response.end()로 웹페이지(template) 출력
       // 홈페이지는 이 부분 없어도 됨(들고 올 파일 없으니까)
@@ -80,9 +83,28 @@ var app = http.createServer(function(request,response){
         }); 
       })
     }
-  } else {
-    response.writeHead(404)
-    response.end('not founded')
+  } else if (pathname === '/create.html') { //pathname === / 일 때 바로 뒤에 query string 없으면 홈, 있으면 메인이므로, /create.html은 /에서 else if로 분기
+      // pathname === / 안에서 이중 분기시 queryData.id와 로직 섞임
+      fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
+        // 실행 경로 /webapp
+        var title = 'WEB - create' ; 
+        var list = templateList(filelist);
+        var template = templatHTML(title, list, `
+          <form action="https://username23940.github.io/test1/process_create.html" method="post"> // github은 node.js(동적페이지) 안되지만 된다고 가정
+            <p><input type="text" name="title" placeholder="title"></p> 
+            <p>
+              <textarea name="description" placeholder="description"></textarea> 
+            </p>
+            <p>
+              <input type="submit"> 
+            </p>
+          </form>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
+        response.writeHead(200); 
+        response.end(template); // template 출력
+        }); 
+    } else {
+        response.writeHead(404)
+        response.end('not founded')
   }
 });
 
