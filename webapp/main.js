@@ -133,7 +133,7 @@ var app = http.createServer(function(request,response){
           var template = templatHTML(title, list, 
             `
             <form action="https://username23940.github.io/test1/update_process" method="post"> 
-              <input type="hidden" name="id" value="${title}"> // name 속성값이 id인 폼을 만들고, 숨김 처리. 이 폼의 value를 사용해 수정하고자 하는 파일 탐색
+              <input type="hidden" name="id" value="${title}"> // name 속성값이 id인 폼을 만들고, 숨김 처리. 이 폼의 value(=id)를 사용해 수정하고자 하는 파일 탐색
               <p><input type="text" name="title" placeholder="title" value="${title}"></p> 
               <p>
                 <textarea name="description" placeholder="description">${description}</textarea> // textarea는 value 속성 없음
@@ -156,12 +156,12 @@ var app = http.createServer(function(request,response){
       request.on('end', function(){
         var post = qs.parse(body); // body에 들어있는 데이터를 post로 파싱
         var id = post.id; // . 뒤의 title, description은 form 태그의 name 속성값과 동일해야 함. name 속성값 안에 들어간 내용이 실제 데이터
-        var title = post.title;
+        var title = post.title; // update에서 본 title과는 다른 것(다른 스코프라 변수 중복 아님. if문 안에서 선언된 변수는 그 안에서만 유효)
         var description = post.description;
-        fs.rename(`./data/${id}`, `./data/${title}`, function(err){ // 파일명 바꾸기
+        fs.rename(`./data/${id}`, `./data/${title}`, function(err){ // 파일명 바꾸기, 콜백함수로 writeFile이 실행되도록(내용 수정)
           fs.writeFile(`./data/${title}`, description, 'utf8', function(err) { // 콜백함수로 저장이 된 다음 302 신호 보내야 함.
             // 실행경로 webapp
-            response.writeHead(302, {Location : `/?id=${title}`}); // 302 : redirection(다른 페이지로 이동) -> if - else 루트. 301은 영구적 이동
+            response.writeHead(302, {Location : `/?id=${title}`}); 
             response.end();
           });
         });
