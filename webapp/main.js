@@ -59,10 +59,11 @@ var app = http.createServer(function(request,response){
   var _url = request.url;
   var queryData = url.parse(request.url, true).query ; 
   var pathname = url.parse(_url, true).pathname ; // url의 pathname 저장 -> root 인지 확인하기 위해
-  
+  var filepath = path.join(__dirname, "data");
+    
   if(pathname === '/') { // localhost:3000/ or username23940.github.io/test1/ (사실 안됨) 일 때.
     if(queryData.id === undefined) { // 홈 페이지(이중 조건문 활용)
-        fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
+        fs.readdir(filepath, function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
           // 실행 경로 /webapp
           var title = 'Welcome' ; 
           var description = 'Hello, Node.js';
@@ -81,12 +82,12 @@ var app = http.createServer(function(request,response){
           response.writeHead(200); 
           response.end(html); // template 출력
           }); 
-    } else {
-      fs.readFile(`./data/${queryData.id}`, "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
+    } else { // `./data/${queryData.id}`
+      fs.readFile(path.join(__dirname, filepath, queryData.id), "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
       // 콜백함수를 활용해 description에 추가 동작(내용 출력, 응답 등을 함). 여기서는 template의 내용으로 사용
       // response.end()로 웹페이지(template) 출력
       // 홈페이지는 이 부분 없어도 됨(들고 올 파일 없으니까)
-        fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨 
+        fs.readdir(filepath, function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨 
           var title = queryData.id ; // 가독성 좋게... 
           var list = template.list(filelist);
           var html = template.html(title, list, 
@@ -105,7 +106,7 @@ var app = http.createServer(function(request,response){
     }
   } else if (pathname === '/create') { //pathname === / 일 때 바로 뒤에 query string 없으면 홈, 있으면 메인이므로, /create.html은 /에서 else if로 분기
       // pathname === / 안에서 이중 분기시 queryData.id와 로직 섞임
-      fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
+      fs.readdir(filepath, function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
         // 실행 경로 /webapp
         var title = 'WEB - create' ; 
         var list = template.list(filelist);
@@ -142,8 +143,8 @@ var app = http.createServer(function(request,response){
           // createServer로 접속이 들어올 때마다 node.js는 익명 콜백함수 호출
           // req ; 요청할 때 사용하는 객체, res ; 응답할 때 사용하는 객체
     } else if (pathname === '/update') { // 수정할 form 만듦(내용 넣어두기) -> create와 달리 readfile, readdir 필요
-      fs.readFile(`./data/${queryData.id}`, "utf8", function(err, description){ 
-        fs.readdir('./data', function(err, filelist){ 
+      fs.readFile(path.join(__dirname, filepath, queryData.id), "utf8", function(err, description){ 
+        fs.readdir(filepath, function(err, filelist){ 
           var title = queryData.id ; 
           var list = template.list(filelist);
           var template = template.html(title, list, 
