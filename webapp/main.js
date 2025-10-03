@@ -52,7 +52,8 @@ var template = {
         i=i+1;
       }
       list = list + '</ul>';
-    }    
+    }
+  return list ;
 }
 
 
@@ -85,7 +86,7 @@ var app = http.createServer(function(request,response){
           response.end(html); // template 출력
           }); 
     } else { // `./data/${queryData.id}`
-      fs.readFile(path.join(__dirname, filepath, queryData.id), "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
+      fs.readFile(path.join(filepath, queryData.id), "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
       // 콜백함수를 활용해 description에 추가 동작(내용 출력, 응답 등을 함). 여기서는 template의 내용으로 사용
       // response.end()로 웹페이지(template) 출력
       // 홈페이지는 이 부분 없어도 됨(들고 올 파일 없으니까)
@@ -135,7 +136,7 @@ var app = http.createServer(function(request,response){
           var post = qs.parse(body); // body에 들어있는 데이터를 post로 파싱
           var title = post.title; // . 뒤의 title, description은 form 태그의 name 속성값과 동일해야 함. name 속성값 안에 들어간 내용이 실제 데이터
           var description = post.description;
-          fs.writeFile(`./data/${title}`, description, 'utf8', function(err) { // 콜백함수로 저장이 된 다음 302 신호 보내야 함.
+          fs.writeFile(path.join(filepath, title), description, 'utf8', function(err) { // 콜백함수로 저장이 된 다음 302 신호 보내야 함.
             // 실행경로 webapp
             response.writeHead(302, {Location : `/?id=${title}`}); // 302 : redirection(다른 페이지로 이동) -> if - else 루트. 301은 영구적 이동
             response.end();
@@ -145,7 +146,7 @@ var app = http.createServer(function(request,response){
           // createServer로 접속이 들어올 때마다 node.js는 익명 콜백함수 호출
           // req ; 요청할 때 사용하는 객체, res ; 응답할 때 사용하는 객체
     } else if (pathname === '/update') { // 수정할 form 만듦(내용 넣어두기) -> create와 달리 readfile, readdir 필요
-      fs.readFile(path.join(__dirname, filepath, queryData.id), "utf8", function(err, description){ 
+      fs.readFile(path.join(filepath, queryData.id), "utf8", function(err, description){ 
         fs.readdir(filepath, function(err, filelist){ 
           var title = queryData.id ; 
           var list = template.list(filelist);
@@ -177,8 +178,8 @@ var app = http.createServer(function(request,response){
         var id = post.id; // . 뒤의 title, description은 form 태그의 name 속성값과 동일해야 함. name 속성값 안에 들어간 내용이 실제 데이터
         var title = post.title; // update에서 본 title과는 다른 것(다른 스코프라 변수 중복 아님. if문 안에서 선언된 변수는 그 안에서만 유효)
         var description = post.description;
-        fs.rename(`./data/${id}`, `./data/${title}`, function(err){ // 파일명 바꾸기, 바꾼 후에 콜백함수로 writeFile이 실행되도록(내용 수정)
-          fs.writeFile(`./data/${title}`, description, 'utf8', function(err) { // 콜백함수로 저장이 된 다음 302 신호 보내야 함.
+        fs.rename(path.join(filepath, id), path.join(filepath, title), function(err){ // 파일명 바꾸기, 바꾼 후에 콜백함수로 writeFile이 실행되도록(내용 수정)
+          fs.writeFile(path.join(filepath, title), description, 'utf8', function(err) { // 콜백함수로 저장이 된 다음 302 신호 보내야 함.
             // 실행경로 webapp
             response.writeHead(302, {Location : `/?id=${title}`}); 
             response.end();
@@ -204,4 +205,5 @@ var app = http.createServer(function(request,response){
   }
 });
 
+const PORT = process.env.PORT || 3000; // 넣으라네??
 app.listen(3000);
