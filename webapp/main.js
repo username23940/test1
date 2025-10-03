@@ -4,60 +4,60 @@ var url = require('url');
 var qs = require('querystring');  
 // module
 
-function templateHTML(_title, _list, _body, _control){ // template : 재사용할 수 있는 껍데기(HTML로 된)
-  return `            
-  <!doctype html>
-  <html>
-  <head>
-    <title>WEB1 - ${_title}</title>
-    <meta charset="utf-8">
-  </head>
-  <body>
-<<<<<<< HEAD
-  <h1><a href="/">WEB</a></h1> <!--위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 $ {title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...-->    
-=======
-  <h1><a href="/">WEB</a></h1> // 위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 {title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...
->>>>>>> 3d6cf50fb24a47a9f43d428e617c6d5d0cffa55d
-    <p>    
-      <input type='button' value='night' onclick="nightDayHandler(this)"> 
-    </p>
-    ${_list} <!-- readdir을 통해 파일 목록 배열로 저장한 것을 바탕으로 목록 재정의-->
-    ${_control} <!-- 실행경로 webapp-->
-    ${_body} <!--페이지가 바뀌면 h2, p 태그로 이루어진 코드가 아닐 수도 있음--> 
-  <p>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/fRXilZ-GOXQ?si=Y-lRJnkE9ZpN50DB" 
-      title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-      gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-  </p>
-  </body>
-  </html>
-  `; 
+var template = {
+  html : 
+    function(_title, _list, _body, _control){ // template : 재사용할 수 있는 껍데기(HTML로 된)
+      return `            
+      <!doctype html>
+      <html>
+      <head>
+        <title>WEB1 - ${_title}</title>
+        <meta charset="utf-8">
+      </head>
+      <body>
+    <<<<<<< HEAD
+      <h1><a href="/">WEB</a></h1> <!--위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 $ {title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...-->    
+    =======
+      <h1><a href="/">WEB</a></h1> // 위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 {title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...
+    >>>>>>> 3d6cf50fb24a47a9f43d428e617c6d5d0cffa55d
+        <p>    
+          <input type='button' value='night' onclick="nightDayHandler(this)"> 
+        </p>
+        ${_list} <!-- readdir을 통해 파일 목록 배열로 저장한 것을 바탕으로 목록 재정의-->
+        ${_control} <!-- 실행경로 webapp-->
+        ${_body} <!--페이지가 바뀌면 h2, p 태그로 이루어진 코드가 아닐 수도 있음--> 
+      <p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/fRXilZ-GOXQ?si=Y-lRJnkE9ZpN50DB" 
+          title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
+          gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </p>
+      </body>
+      </html>
+      `; 
+    },
+  list: 
+    function(_filelist){
+      /*
+        <li><a href="/?id=HTML">HTML</a></li>
+        <li><a href="/?id=CSS">CSS</a></li>
+        <li><a href="/?id=JavaScript">JavaScript</a></li>
+        <li><a href="/?id=교보문고">내가 만든 교보문고 홈페이지</a></li>
+        <li><a href="/?id=JS Exercise">js 연습</a></li>
+        <li><a href="/?id=CSS Exercise">css 연습</a></li>
+        <li><a href="/?id=Box Grid Exercise">box, grid 연습</a></li>
+      */
+      var list = '<ul>'; // 재정의 할 때, ul 태그는 기본으로 감싸두고, 반복문을 활용해 배열의 요소를 꺼내 ul 태그 안에 들어가게 함(각 요소는 template literal 활용)
+      var i=0;
+      while(i < _filelist.length) {
+        list = list + `<li><a href="/?id=${_filelist[i]}">${_filelist[i]}</a></li>`;
+        i=i+1;
+      }
+      list = list + '</ul>';
+    }    
 }
 
-function templateList(_filelist){
-  /*
-    <li><a href="/?id=HTML">HTML</a></li>
-    <li><a href="/?id=CSS">CSS</a></li>
-    <li><a href="/?id=JavaScript">JavaScript</a></li>
-    <li><a href="/?id=교보문고">내가 만든 교보문고 홈페이지</a></li>
-    <li><a href="/?id=JS Exercise">js 연습</a></li>
-    <li><a href="/?id=CSS Exercise">css 연습</a></li>
-    <li><a href="/?id=Box Grid Exercise">box, grid 연습</a></li>
-  */
-  var list = '<ul>'; // 재정의 할 때, ul 태그는 기본으로 감싸두고, 반복문을 활용해 배열의 요소를 꺼내 ul 태그 안에 들어가게 함(각 요소는 template literal 활용)
-  var i=0;
-  while(i < _filelist.length) {
-    list = list + `<li><a href="/?id=${_filelist[i]}">${_filelist[i]}</a></li>`;
-    i=i+1;
-  }
-  list = list + '</ul>';
-}
 
 var app = http.createServer(function(request,response){
-<<<<<<< HEAD
-=======
-
->>>>>>> 3d6cf50fb24a47a9f43d428e617c6d5d0cffa55d
 
   var _url = request.url;
   var queryData = url.parse(request.url, true).query ; 
@@ -69,13 +69,20 @@ var app = http.createServer(function(request,response){
           // 실행 경로 /webapp
           var title = 'Welcome' ; 
           var description = 'Hello, Node.js';
+          /*
           var list = templateList(filelist);
           var template = templateHTML(title, list, 
               `<h2>${title}</h2><p>${description}</p>`, 
               `<a href="/create">create</a>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
           // 현재 페이지는 h2, p 태그로 이루어지니까 parameter는 그대로..
+          */
+          var list = template.list(filelist); // template 변수는 객체 이름이니까 이제 다른거로 바꿈
+          var html = template.html(title, list, 
+              `<h2>${title}</h2><p>${description}</p>`, 
+              `<a href="/create">create</a>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
+          // 현재 페이지는 h2, p 태그로 이루어지니까 parameter는 그대로..
           response.writeHead(200); 
-          response.end(template); // template 출력
+          response.end(html); // template 출력
           }); 
     } else {
       fs.readFile(`./data/${queryData.id}`, "utf8", function(err, description){ // description : 파일을 성공적으로 읽었을 때 파일의 문자열이 담김
@@ -84,8 +91,8 @@ var app = http.createServer(function(request,response){
       // 홈페이지는 이 부분 없어도 됨(들고 올 파일 없으니까)
         fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨 
           var title = queryData.id ; // 가독성 좋게... 
-          var list = templateList(filelist);
-          var template = templateHTML(title, list, 
+          var list = template.list(filelist);
+          var html = template.html(title, list, 
                 `<h2>${title}</h2><p>${description}</p>`, 
                 `<a href="/create">create</a>
                 <a href="/update?id=${title}">update</a>
@@ -95,7 +102,7 @@ var app = http.createServer(function(request,response){
                 </form>
                 <a href="/delete?id=${title}">delete</a>`);
           response.writeHead(200); 
-          response.end(template); // template 출력
+          response.end(html); // template 출력
         }); 
       })
     }
@@ -104,8 +111,8 @@ var app = http.createServer(function(request,response){
       fs.readdir('./data', function(err, filelist){ // readdir로 파일 목록 가져온 후. function 내부의 코드를 실행하도록 설계됨
         // 실행 경로 /webapp
         var title = 'WEB - create' ; 
-        var list = templateList(filelist);
-        var template = templateHTML(title, list, `
+        var list = template.list(filelist);
+        var html = template.html(title, list, `
           <form action="https://test1-3433.onrender.com/create_process" method="post"> <!-- github은 node.js(동적페이지) 안되지만 된다고 가정-->
             <p><input type="text" name="title" placeholder="title"></p> 
             <p>
@@ -117,7 +124,7 @@ var app = http.createServer(function(request,response){
           </form>`, ''); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
         // 4번째 parameter는 create 페이지에서 필요 없으므로 공백
         response.writeHead(200); 
-        response.end(template); // template 출력
+        response.end(html); // template 출력
         }); 
     } else if(pathname === '/create_process') {
         var body = '';
@@ -141,8 +148,8 @@ var app = http.createServer(function(request,response){
       fs.readFile(`./data/${queryData.id}`, "utf8", function(err, description){ 
         fs.readdir('./data', function(err, filelist){ 
           var title = queryData.id ; 
-          var list = templateList(filelist);
-          var template = templateHTML(title, list, 
+          var list = template.list(filelist);
+          var template = template.html(title, list, 
             `
             <form action="https://test1-3433.onrender.com/update_process" method="post"> 
               <input type="hidden" name="id" value="${title}"> <!-- name 속성값이 id인 폼을 만들고, 숨김 처리. 이 폼의 value(=id)를 사용해 수정하고자 하는 파일 탐색-->
@@ -157,7 +164,7 @@ var app = http.createServer(function(request,response){
             `, 
             `<a href="/create">create</a><a href="/update?id=${title}">update</a>`);
           response.writeHead(200); 
-          response.end(template); 
+          response.end(html); 
         }); 
       })
     } else if (pathname === '/update_process') {
