@@ -102,7 +102,7 @@ var app = http.createServer(function(request,response){
                   <input type="hidden" name="id" value="${title}">
                   <input type="submit" value="delete">
                 </form>
-                <a href="/delete">delete</a>`);
+                <a href="/delete_process">delete</a>`);
           response.writeHead(200); 
           response.end(html); // template 출력
         }); 
