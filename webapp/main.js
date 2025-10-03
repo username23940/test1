@@ -13,7 +13,7 @@ function templateHTML(_title, _list, _body, _control){ // template : 재사용�
     <meta charset="utf-8">
   </head>
   <body>
-  <h1><a href="/">WEB</a></h1> // 위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 ${title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...
+  <h1><a href="/">WEB</a></h1> // 위에 조건문에서 걸림, 물론 이렇게 하면 본문은 그대로고 $ {title}이 들어간 곳만 query string에 따라 변경. 실제 경로를 나타내지 않으니까...
     <p>    
       <input type='button' value='night' onclick="nightDayHandler(this)"> 
     </p>
