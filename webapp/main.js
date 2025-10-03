@@ -52,8 +52,9 @@ var template = {
         i=i+1;
       }
       list = list + '</ul>';
+      return list ;
+
     }
-  return list ;
 }
 
 
@@ -194,7 +195,7 @@ var app = http.createServer(function(request,response){
       request.on('end', function(){
         var post = qs.parse(body); // body에 들어있는 데이터를 post로 파싱
         var id = post.id; // . 뒤의 title, description은 form 태그의 name 속성값과 동일해야 함. name 속성값 안에 들어간 내용이 실제 데이터
-        fs.unlink(`./data/${id}`, function(err){
+        fs.unlink(path.join(filepath, id), function(err){
           response.writeHead(302, {Location : `/`});  // 삭제하면 홈으로 이동 
           response.end();
         });
@@ -205,5 +206,7 @@ var app = http.createServer(function(request,response){
   }
 });
 
-const PORT = process.env.PORT || 3000; // 넣으라네??
-app.listen(3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
