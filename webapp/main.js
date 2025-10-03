@@ -63,7 +63,7 @@ var app = http.createServer(function(request,response){
           var title = 'Welcome' ; 
           var description = 'Hello, Node.js';
           var list = templateList(filelist);
-          var template = templatHTML(title, list, 
+          var template = templateHTML(title, list, 
               `<h2>${title}</h2><p>${description}</p>`, 
               `<a href="/create">create</a>`); // parameter는 위 10줄 내에서 가져옴. argument는 함수 정의 부분 내에서 가져옴
           // 현재 페이지는 h2, p 태그로 이루어지니까 parameter는 그대로..
