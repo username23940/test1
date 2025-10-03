@@ -50,8 +50,7 @@ function templateList(_filelist){
 }
 
 var app = http.createServer(function(request,response){
-  // console.log(url.parse(_url, true)); // url 분석
-  console.log(queryData.id); 
+
 
   var _url = request.url;
   var queryData = url.parse(request.url, true).query ; 
