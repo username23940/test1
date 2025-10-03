@@ -43,7 +43,7 @@ function templateList(_filelist){
   var list = '<ul>'; // 재정의 할 때, ul 태그는 기본으로 감싸두고, 반복문을 활용해 배열의 요소를 꺼내 ul 태그 안에 들어가게 함(각 요소는 template literal 활용)
   var i=0;
   while(i < _filelist.length) {
-    list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+    list = list + `<li><a href="/?id=${_filelist[i]}">${_filelist[i]}</a></li>`;
     i=i+1;
   }
   list = list + '</ul>';
