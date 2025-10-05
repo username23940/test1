@@ -1,4 +1,3 @@
+var mod = require('./syntax10(module1).js') 
 
-
-M.f(); // v
-
+mod.f(); // v
