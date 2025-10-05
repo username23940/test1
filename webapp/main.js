@@ -29,7 +29,8 @@ const app = http.createServer(function(request, response){
         response.end(html);
       });
     } else { // 파일 상세
-      const filePath = path.join(filepath, queryData.id); // filepath에 query string의 id를 합쳐 Path로 재정의
+      var filteredId = path.parse(queryData.id).base; // url 세탁(임의 파일 접근 금지) 
+      const filePath = path.join(filepath, filteredId); // filepath에 query string의 id를 합쳐 Path로 재정의
       fs.readFile(filePath, "utf8", function(err, description){ // readFile -> readdir -> 출력(async 처리이므로 readdir 마지막에 둬야함) 
         if(err){
           response.writeHead(404);
@@ -90,7 +91,8 @@ const app = http.createServer(function(request, response){
       });
     });
   } else if(pathname === '/update'){
-    const filePath = path.join(filepath, queryData.id);
+    var filteredId = path.parse(queryData.id).base;
+    const filePath = path.join(filepath, filteredId);
     fs.readFile(filePath, 'utf8', function(err, description){
       if(err){
         response.writeHead(404);
